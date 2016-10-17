@@ -30,7 +30,7 @@ class User(db.Model):
         return '<User %r>' % self.nickname
 
 
-class department(db.Model):
+class Department(db.Model):
     __tablename__ = 'departments'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), unique=True)
@@ -41,12 +41,12 @@ class department(db.Model):
         self.admin_id = admin_id
 
 
-class issue(db.Model):
+class Issue(db.Model):
     __tablename__ = 'issues'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(120))
     description = db.Column(db.String(120))
-    user = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     status = db.Column(db.Integer, index=True)
     priority = db.Column(db.Integer, index=True)
 
@@ -63,3 +63,23 @@ class issue(db.Model):
         self.user = user
         self.status = status
         self.priority = priority
+
+
+class AssignedIssue(db.Model):
+    __tablename__ = 'assigned_issues'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    issue_id = db.Column(db.Integer, db.ForeignKey('issues.id'), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
+    status = db.Column(db.Integer, index=True)
+    comment = db.Column(db.String(255))
+
+    def __init__(self,
+                 issue_id,
+                 user_id,
+                 status,
+                 comment
+                 ):
+        self.issue_id = issue_id
+        self.user_id = user_id
+        self.status = status
+        self.comment = comment
