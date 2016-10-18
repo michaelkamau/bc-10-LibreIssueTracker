@@ -12,3 +12,9 @@ class RegistrationForm(Form):
     last_name = StringField("last_name")
     other_name = StringField("other_name")
     department = SelectField(choices=Department().get_departments())
+
+
+class LoginForm(Form):
+    username = StringField("Username")
+    password = StringField("password")
+

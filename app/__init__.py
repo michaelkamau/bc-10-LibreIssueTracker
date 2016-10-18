@@ -14,9 +14,10 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 
 from app.mod_auth.controllers import mod_auth as auth_module
+from app.mod_issues_tracker.controllers import mod_issue_tracker as issue_tracker_module
 
 app.register_blueprint(auth_module)
-# app.register_blueprint(xyz_module)
+app.register_blueprint(issue_tracker_module)
 # ..
 
 # Build the database:

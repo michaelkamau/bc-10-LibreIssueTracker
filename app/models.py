@@ -34,3 +34,18 @@ class Department(db.Model):
             self.__class__.name
         )
         return list(result)
+
+
+class Issue(db.Model):
+    __tablename__ = "issues"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(120))
+    description = db.Column(db.String(120))
+    user = db.Column(db.Integer, db.ForeignKey('users.id'))
+    priority = db.Column(db.Integer)
+    status = db.Column(db.Integer)
+    department=db.Column(db.Integer)
+
+    def __repr__(self):
+        return 'Id: %s title: %s user: %s ' % (self.id, self.title, self.user)
+

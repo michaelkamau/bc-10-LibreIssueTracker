@@ -1,0 +1,12 @@
+{% from "static/_formhelpers.html" import render_field %}
+<form method=post action="/issue/new">
+  <dl>
+      {{ render_field(form.title) }}
+      {{ render_field(form.department) }}
+      {{ render_field(form.priority) }}
+      {{ render_field(form.description) }}
+  </dl>
+
+    <input type="submit" value="Submit Issue">
+
+</form>
