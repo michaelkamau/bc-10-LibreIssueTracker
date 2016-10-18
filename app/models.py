@@ -17,7 +17,9 @@ class User(db.Model):
     department = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return 'User %s email %s first %slast %s department %s ' % (self.username,
+                                                                    self.email, self.first_name, self.last_name,
+                                                                    self.department)
 
 
 class Department(db.Model):
@@ -26,4 +28,9 @@ class Department(db.Model):
     name = db.Column(db.String(120))
     admin_id = db.Column(db.Integer)
 
-
+    def get_departments(self):
+        result = self.__class__.query.with_entities(
+            self.__class__.id,
+            self.__class__.name
+        )
+        return list(result)

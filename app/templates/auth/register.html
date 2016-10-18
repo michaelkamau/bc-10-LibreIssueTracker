@@ -1,12 +1,16 @@
 {% from "auth/_formhelpers.html" import render_field %}
-<form method=post action="/register">
+<form method=post action="/auth/register">
   <dl>
-    {{ render_field(form.username) }}
-    {{ render_field(form.email) }}
-    {{ render_field(form.password) }}
-    {{ render_field(form.confirm) }}
-    {{ render_field(form.language) }}
+        {{ render_field(form.username) }}
+        {{ render_field(form.email) }}
+        {{ render_field(form.password) }}
+        {{ render_field(form.confirm_password) }}
+        {{ render_field(form.first_name) }}
+        {{ render_field(form.last_name) }}
+        {{ render_field(form.other_name) }}
+        {{ render_field(form.department) }}
   </dl>
+
 
   <input type="submit" value="Sign Up">
 </form>
