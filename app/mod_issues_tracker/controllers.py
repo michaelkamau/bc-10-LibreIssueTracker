@@ -30,8 +30,8 @@ def register():
             status=0
         )
 
-        db.session.add(issue)
-        db.session.commit()
+        #db.session.add(issue)
+        #db.session.commit()
 
         return "issue submitted"
 

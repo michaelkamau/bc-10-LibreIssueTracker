@@ -5,12 +5,12 @@ from app.models import Department, User
 
 
 class NewIssueForm(Form):
-    title = StringField("Title")
-    department = SelectField(label="Department", choices=Department().get_departments())
-    priority = RadioField(label="priority", choices=[
-        ("low", "low"), ("medium", "medium"), ("high", "high")
+    title = StringField(id="title")
+    department = SelectField(id="department", choices=Department().get_departments())
+    priority = RadioField(id="priority", choices=[
+        ("low", "Low"), ("medium", "Medium"), ("high", "High")
     ])
-    description = TextAreaField(label="Description")
+    description = TextAreaField(id="description")
 
 
 class AssignIssueForm(Form):

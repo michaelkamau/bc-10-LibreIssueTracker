@@ -1,10 +1,8 @@
 
-{% extends "index/base.html" %}
+{% extends "static/base.html" %}
 {% block title %}
     Create User
 {% endblock %}
-
-{% from "static/_formhelpers.html" import render_field %}
 
 {% block content %}
 
@@ -19,17 +17,19 @@
     }
 
     .card-panel {
-        margin-top: 20px;
+        margin-top: 40px;
         margin-bottom: 20px;
-        width: 40%;
+        width: 500px;
         padding: 10px;
         margin-left: auto;
         margin-right: auto;
+        padding-top: 20px;
+        border-radius: 5px;
     }
 </style>
 
 <div class="card-panel">
-<form class="col s6" method="post" action="/auth/register">
+<form class="col s6" method="post" action="{{ url_for('auth.register') }}">
 
     <div class="row">
         <div class="input-field col s12">
@@ -57,13 +57,13 @@
     </div>
     <div class="row">
         <div class="input-field col s12">
-              <input id="{{form.password.id}}" type="text" name={{form.password.id}} class="validate">
+              <input id="{{form.password.id}}" type="password" name={{form.password.id}} class="validate">
               <label for="{{form.password.id}}">Password</label>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12">
-              <input id="{{form.confirm_password.id}}" type="text" name={{form.confirm_password.id}} class="validate">
+              <input id="{{form.confirm_password.id}}" type="password" name={{form.confirm_password.id}} class="validate">
               <label for="{{form.confirm_password.id}}">Confirm Password</label>
         </div>
     </div>
@@ -81,11 +81,19 @@
     </div>
 <div class="row">
     <div class="input-field col s12">
- <button class="btn waves-effect waves-light" type="submit" name="create_user">Submit</button>
-        </div>
+        <button class="btn waves-effect waves-light margin right" type="submit" name="create_user">Create Account</button>
+    </div>
     </div>
 
 </form>
+    <div class="row">
+        <div class="input-field col s12">
+        <p class="margin center medium-small">
+            Already have an account?
+            <a href="{{ url_for('auth.login') }}">Login</a>
+        </p>
+            </div>
+    </div>
 
 </div>
 {% endblock %}

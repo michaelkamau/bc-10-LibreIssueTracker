@@ -8,8 +8,8 @@ from app import db
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(64), index=True)
-    email = db.Column(db.String(120))
+    username = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120), index=True)
     first_name = db.Column(db.String(120))
     last_name = db.Column(db.String(120))
@@ -34,7 +34,7 @@ class User(db.Model, UserMixin):
         result = self.__class__.query.with_entities(
             self.__class__.id,
             self.__class__.fullname
-        )
+        ).all()
 
         return list(result)
 
@@ -54,7 +54,7 @@ class Department(db.Model):
         result = self.__class__.query.with_entities(
             self.__class__.id,
             self.__class__.name
-        )
+        ).all()
         return list(result)
 
 
@@ -78,3 +78,7 @@ class IssueStatus(object):
     IN_PROGRESS = 1
     OPEN = 2
     CLOSED = 3
+
+    LOW = 0
+    MEDIUM = 1
+    HIGH = 2

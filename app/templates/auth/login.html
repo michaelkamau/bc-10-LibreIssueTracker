@@ -1,10 +1,64 @@
-{% from "static/_formhelpers.html" import render_field %}
+{% extends "static/base.html" %}
+{% block title %}
+    Create User
+{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+
+    .row{
+        margin-bottom: 0;
+    }
+
+    .input-field {
+        margin-top : 0;
+    }
+
+    .card-panel {
+        margin-top: 40px;
+        margin-bottom: 20px;
+        width: 500px;
+        padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 20px;
+        border-radius: 5px;
+    }
+</style>
+<div class="card-panel">
 <form method=post action="/auth/login">
-  <dl>
-        {{ render_field(form.username) }}
-        {{ render_field(form.password) }}
-  </dl>
+    <div class="row">
+        <div class="input-field col s12">
+          <input id="{{form.username.id}}" type="text" name={{form.username.id}} class="validate">
+          <label for="{{form.username.id}}">Username</label>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="input-field col s12">
+          <input id="{{form.password.id}}" type="password" name={{form.password.id}} class="validate">
+          <label for="{{form.password.id}}">Password</label>
+        </div>
+    </div>
 
-  <input type="submit" value="Sign In">
+    <div class="row">
+    <div class="input-field col s12">
+        <button class="btn waves-effect waves-light margin right" type="submit" name="log_in">Log In</button>
+    </div>
+    </div>
+
 </form>
+    <div class="row">
+        <div class="input-field col s12">
+        <p class="margin center medium-small">
+            <a href="{{ url_for('auth.register') }}" class="right">Forgot Password?</a>
+             <a href="{{ url_for('auth.register') }}" class="left">Register Now?</a>
+        </p>
+            </div>
+    </div>
+
+</form>
+</div>
+
+{% endblock %}

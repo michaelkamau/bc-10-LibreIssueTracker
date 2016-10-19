@@ -14,6 +14,6 @@ class RegistrationForm(Form):
 
 
 class LoginForm(Form):
-    username = StringField("Username")
-    password = StringField("password")
+    username = StringField(id="username")
+    password = StringField(id="password")
 
