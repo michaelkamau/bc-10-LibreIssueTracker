@@ -44,13 +44,13 @@ def register():
 def get_issues(issue_id):
     print issue_id
     if request.method == 'GET':
-        issues = None
+        issues_list = None
         if issue_id:
-            issues = Issue.query.filter_by(id=issue_id)
+            issues_list = Issue.query.filter_by(id=issue_id)
         else:
-            issues = Issue.query
+            issues_list = Issue.query
 
-        return render_template('issues/issues_list.html', issues=issues)
+        return render_template('issues/issues_list.html', issues_list=issues_list)
 
 
 @mod_issue_tracker.route('/assign', methods=['GET', 'POST'])

@@ -4,5 +4,37 @@
 {% endblock %}
 
 {% block content %}
-<a>bhdbhsbdh</a>
+
+<style type="text/css">
+     .issue_list {
+        width: 60%;
+        margin-right: auto;
+        margin-left: auto;
+       }
+
+      .card-panel{
+        padding: 10px !important;
+        margin: 0;
+        margin-bottom: 5px;
+      }
+
+      td, th{
+        padding : 1px;
+      }
+
+</style>
+
+     <table class="issue_list">
+          <tbody>
+           {% for issue in issues_list %}
+          <tr>
+            <td>
+                <div class="card-panel">
+                    <span class="grey-text text-darken-2">{{issue.title}}</span>
+                </div>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+     </table>
 {% endblock %}

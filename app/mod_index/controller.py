@@ -1,7 +1,8 @@
 from flask import Response
-from flask import render_template, request, flash, redirect, url_for, Blueprint
+from flask import render_template, app, request, flash, redirect, url_for, Blueprint
 
-mod_index = Blueprint('index', __name__, url_prefix='/')
+
+mod_index = Blueprint('index', __name__)
 
 
 @mod_index.route('/', methods=['GET'])
