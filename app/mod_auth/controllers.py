@@ -24,7 +24,6 @@ def register():
             email=form.email.data,
             first_name=form.first_name.data,
             last_name=form.last_name.data,
-            other_name=form.other_name.data,
             department=form.department.data
         )
         db.session.add(user)

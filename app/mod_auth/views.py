@@ -4,14 +4,13 @@ from app.models import Department
 
 
 class RegistrationForm(Form):
-    username = StringField('username')
-    email = StringField("email")
-    password = PasswordField('password')
-    confirm_password = PasswordField('confirm_password')
-    first_name = StringField("first_name")
-    last_name = StringField("last_name")
-    other_name = StringField("other_name")
-    department = SelectField(choices=Department().get_departments())
+    username = StringField(id='username')
+    email = StringField(id='email')
+    password = PasswordField(id='password')
+    confirm_password = PasswordField(id='confirm_password')
+    first_name = StringField(id='first_name')
+    last_name = StringField(id='last_name')
+    department = SelectField(id='department', choices=Department().get_departments())
 
 
 class LoginForm(Form):

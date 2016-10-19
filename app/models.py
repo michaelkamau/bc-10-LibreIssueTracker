@@ -14,10 +14,21 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(120))
     last_name = db.Column(db.String(120))
     fullname = db.column_property(last_name + ", " + first_name)
-    other_name = db.Column(db.String(120))
     role = db.Column(db.Integer)
     verified = db.Column(db.Integer)
     department = db.Column(db.Integer, db.ForeignKey('departments.id'))
+
+    def __init__(self, username=None, email=None, password=None, first_name=None,
+                 last_name=None, department=None, role=0, verified=0
+                 ):
+        self.username = username
+        self.email = email
+        self.password = password
+        self.first_name = first_name
+        self.last_name = last_name
+        self.role = role
+        self.verified = verified
+        self.department = department
 
     def get_users(self):
         result = self.__class__.query.with_entities(

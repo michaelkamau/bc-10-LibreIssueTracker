@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     {% block head %}
-    <title>{% block title %}{% endblock %} - Register</title>
+    <title>{% block title %}{% endblock %} | Issue Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     {% endblock %}
@@ -23,8 +23,10 @@
     {% endblock %}
 
     {% block content %}
+
     {% endblock %}
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    {% block scripts %} {% endblock %}
 </body>
 </html>
