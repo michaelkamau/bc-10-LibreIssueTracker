@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+from flask_login import UserMixin
+
 from app import db
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(64), index=True)
@@ -11,10 +13,19 @@ class User(db.Model):
     password = db.Column(db.String(120), index=True)
     first_name = db.Column(db.String(120))
     last_name = db.Column(db.String(120))
+    fullname = db.column_property(last_name + ", " + first_name)
     other_name = db.Column(db.String(120))
     role = db.Column(db.Integer)
     verified = db.Column(db.Integer)
     department = db.Column(db.Integer, db.ForeignKey('departments.id'))
+
+    def get_users(self):
+        result = self.__class__.query.with_entities(
+            self.__class__.id,
+            self.__class__.fullname
+        )
+
+        return list(result)
 
     def __repr__(self):
         return 'User %s email %s first %slast %s department %s ' % (self.username,
@@ -23,7 +34,7 @@ class User(db.Model):
 
 
 class Department(db.Model):
-    __tablename__ = 'departments'
+    __tablename__ = "departments"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(120))
     admin_id = db.Column(db.Integer)
@@ -44,8 +55,15 @@ class Issue(db.Model):
     user = db.Column(db.Integer, db.ForeignKey('users.id'))
     priority = db.Column(db.Integer)
     status = db.Column(db.Integer)
-    department=db.Column(db.Integer)
+    department = db.Column(db.Integer)
+    created_at = db.Column(db.Integer)
 
     def __repr__(self):
         return 'Id: %s title: %s user: %s ' % (self.id, self.title, self.user)
 
+
+class IssueStatus(object):
+    NEW = 0
+    IN_PROGRESS = 1
+    OPEN = 2
+    CLOSED = 3

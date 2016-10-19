@@ -1,11 +1,17 @@
 from flask import render_template, request, flash, redirect, url_for, Blueprint
+from flask import session
+from flask_login import login_user, logout_user, LoginManager
 
-from app import db
-from app.mod_auth.views import RegistrationForm
+from app import db, app
 from app.mod_auth.views import LoginForm
+from app.mod_auth.views import RegistrationForm
 from app.models import User
 
 mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "auth.login"
 
 
 @mod_auth.route('/register', methods=['GET', 'POST'])
@@ -26,9 +32,19 @@ def register():
 
         flash('Thanks for registering')
 
-        return redirect(url_for('auth/login'))
+        return redirect(url_for('auth.login'))
 
     return render_template('auth/register.html', form=form)
+
+
+@mod_auth.route('/logout', methods=['GET'])
+def logout():
+    if logout_user():
+        flash("Successfully Logged out")
+        return redirect(url_for("index.index"))
+    else:
+        flash("problem logging out")
+        return "done"
 
 
 @mod_auth.route('/login', methods=['GET', 'POST'])
@@ -39,11 +55,44 @@ def login():
         username = form.username.data
         password = form.password.data
 
-        q = db.session.query(User).filter(User.username == username, User.password == password).exists()
-        if db.session.query(q).scalar():
-            # todo add session
-            return "logged in, start session"
-        else:
-            return "Unknown User/password combination"
+        user = User.query.filter_by(username=username, password=password).first()
+
+        if user is not None:
+            login_user(user, True)
+            session['user_id'] = user.id
+            session['username'] = user.username
+
+            flash("Logged in")
+
+            return redirect(url_for("index.index"))
+        print request.args.get('next', 19, type=int)
 
     return render_template('auth/login.html', form=form)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+
+def get_current_user_role():
+    pass
+
+
+def error_response():
+    pass
+
+
+def requires_roles(*roles):
+    def wrapper(f):
+        from functools import wraps
+
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            if get_current_user_role() not in roles:
+                return error_response()
+            return f(*args, **kwargs)
+
+        return wrapped
+
+    return wrapper

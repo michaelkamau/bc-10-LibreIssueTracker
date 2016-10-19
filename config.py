@@ -1,8 +1,8 @@
 import os
 
 WTF_CSRF_ENABLED = True
-SECRET_KEY = 'qwertyuiop[]oiuytrs'
-CSRF_SESSION_KEY = "sdfyhnmvcfuioijhgcdtyuioiyf"
+SECRET_KEY = os.urandom(56)
+CSRF_SESSION_KEY = os.urandom(56)
 
 DEBUG = True
 

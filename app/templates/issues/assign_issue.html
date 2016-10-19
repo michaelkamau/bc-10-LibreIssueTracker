@@ -1,0 +1,10 @@
+{% from "static/_formhelpers.html" import render_field %}
+
+<form method=post action="/issues/assign">
+  <dl>
+        {{render_field(form.users)}}
+  </dl>
+
+
+  <input type="submit" value="Assign Issue">
+</form>

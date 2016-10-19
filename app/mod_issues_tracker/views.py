@@ -1,7 +1,7 @@
 from wtforms import Form, StringField, SelectField, TextAreaField
 from wtforms import RadioField
 
-from app.models import Department
+from app.models import Department, User
 
 
 class NewIssueForm(Form):
@@ -11,3 +11,8 @@ class NewIssueForm(Form):
         ("low", "low"), ("medium", "medium"), ("high", "high")
     ])
     description = TextAreaField(label="Description")
+
+
+class AssignIssueForm(Form):
+    users = SelectField(label="User", choices=User().get_users())
+    comment = TextAreaField(label="comments")

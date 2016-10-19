@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!flask/bin/python
 # -*- coding: utf-8 -*-
 
 import os.path
@@ -17,4 +17,7 @@ else:
     api.version_control(SQLALCHEMY_DATABASE_URI,
                         SQLALCHEMY_MIGRATE_REPO,
                         api.version(SQLALCHEMY_MIGRATE_REPO))
+
+
+
 
