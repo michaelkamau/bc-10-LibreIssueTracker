@@ -1,0 +1,116 @@
+{% extends "static/base.html" %}
+{% block title %}
+    #{{ issue.0.0.id}} - {{ issue.0.0.title}}
+{% endblock %}
+
+{% block content %}
+
+<style type="text/css" xmlns="http://www.w3.org/1999/html">
+
+    .high{
+        color: #f39f09 !important;
+    }
+
+
+    .medium{
+        color: #f44336
+    }
+
+    .low{
+            color: #6da79b;
+    }
+
+    .issue-title{
+        font: 700 16px/20px "Gotham SSm A","Gotham SSm B","Helvetica Neue",Helvetica,Arial,sans-serif;
+        letter-spacing: -.025em;
+        text-rendering: optimizeLegibility;
+        min-height: 22px;
+        margin : 5px
+    }
+     .issue-list {
+        width: 60%;
+        margin-right: auto;
+        margin-left: auto;
+        line-height: 1;
+       }
+
+
+
+      .card-panel {
+        margin-top: 40px;
+        margin-bottom: 20px;
+        width: 70%;
+        padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 20px;
+        border-radius: 5px;
+    }
+
+      td, th{
+        padding : 1px;
+      }
+
+          .truncate {
+              width: 100%;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+
+</style>
+
+<div class="row">
+    <div class="card-panel">
+
+        <div class="row">
+        <span class="high issue-title"># {{ issue.0.0.id}}  &bull;  HIGH &bull;  IN PROGRESS</span>
+        <hr >
+        <label>Subject: </label><span class="high issue-title">{{issue.0.0.title}} </span> <br />
+        <label>Raised By: </label><span class="">{{issue.0.1.fullname}} </span> <br />
+        <label>Assigned To: </label><span class="">{{issue.0.1.fullname}} </span> <br />
+        <label for="description">Description </label><br >
+            <textarea style="overflow-y: scroll; resize: none; min-height: 180px;     width: 80%;" id="description" readonly>{{issue.0.0.description}}</textarea>
+        </div>
+    <div class="row">
+        <form method=post action="/issues/{{ issue.0.0.id}}">
+
+
+     <div class="row">
+        <div class="input-field col s12">
+            <select id="{{form.users.id}}" name="{{form.users.id}}">
+                {% for user in form.users.choices %}
+                    <option value="{{user.id}}">{{ user.fullname }}</option>
+                {% endfor %}
+            </select>
+            <label for="{{form.users.id}}">Assign To</label>
+        </div>
+    </div>
+
+    <div class="row">
+          <div class="row description_div">
+            <div class="input-field col s12">
+                <textarea id="{{ form.comment.id }}" name="{{ form.comment.id }}" class="materialize-textarea"></textarea>
+                <label for="{{ form.comment.id }}">Comment</label>
+            </div>
+        </div>
+    </div>
+            <div class="row">
+        <div class="input-field col s12">
+            <button class="btn waves-effect waves-light margin" type="submit" name="assign_issue">Assign Issue</button>
+        </div>
+    </div>
+
+            </form>
+        </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+      <script type="text/javascript">
+        $(document).ready(function() {
+    $('select').material_select();
+  });
+    </script>
+{% endblock %}

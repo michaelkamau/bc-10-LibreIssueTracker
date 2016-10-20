@@ -42,30 +42,28 @@ def add_new_issue():
     return render_template('issues/create_new.html', form=form)
 
 
-@mod_issue_tracker.route('/', methods=['GET'], defaults={'issue_id': None})
-@mod_issue_tracker.route('/<int:issue_id>', methods=['GET'])
+@mod_issue_tracker.route('/', methods=['GET'])
 @login_required
-def get_issues(issue_id):
-    print issue_id
+def get_issues():
+
     if request.method == 'GET':
-        issues_list = None
-        if issue_id:
-            issues_list = Issue.query.filter_by(id=issue_id)
-        else:
-            issues_list = Issue.query
+        issues_list = db.session.query(Issue, User).filter(User.id == Issue.user).all()
 
         return render_template('issues/issues_list.html', issues_list=issues_list)
 
 
-@mod_issue_tracker.route('/assign', methods=['GET', 'POST'])
-def assign_issue():
-
+@mod_issue_tracker.route('/<int:issue_id>', methods=['GET', 'POST'])
+def get_issue_by_id(issue_id):
     form = AssignIssueForm()
+    issue = None
+    if request.method == 'POST':
+        assign_user = form.users.data
+        commment = form.data
 
-    if request.method == 'GET':
-        pass
-
-    return render_template('issues/assign_issue.html', form=form)
 
 
+
+    if issue_id:
+        issue = db.session.query(Issue, User).filter(User.id == Issue.user).filter_by(id=issue_id).all()
+    return render_template('issues/issue_details.html', issue=issue, form=form)
 

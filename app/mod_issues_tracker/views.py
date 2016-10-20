@@ -14,5 +14,5 @@ class NewIssueForm(Form):
 
 
 class AssignIssueForm(Form):
-    users = SelectField(label="User", choices=User().get_users())
-    comment = TextAreaField(label="comments")
+    users = SelectField(id="user_id", choices=User().get_users())
+    comment = TextAreaField(id="comments")

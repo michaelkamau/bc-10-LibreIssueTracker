@@ -1,9 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from flask_login import UserMixin
+from sqlalchemy.orm import relationship
 
 from app import db
 
+class Department(db.Model):
+    __tablename__ = "departments"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(120))
+    admin_id = db.Column(db.Integer)
+
+    def get_departments(self):
+        result = self.__class__.query.with_entities(
+            self.__class__.id,
+            self.__class__.name
+        ).all()
+        return list(result)
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -16,7 +29,7 @@ class User(db.Model, UserMixin):
     fullname = db.column_property(last_name + ", " + first_name)
     role = db.Column(db.Integer)
     verified = db.Column(db.Integer)
-    department = db.Column(db.Integer, db.ForeignKey('departments.id'))
+    department = db.Column(db.Integer, db.ForeignKey(Department.id))
 
     def __init__(self, username=None, email=None, password=None, first_name=None,
                  last_name=None, department=None, role=0, verified=0
@@ -44,26 +57,12 @@ class User(db.Model, UserMixin):
                                                                     self.department)
 
 
-class Department(db.Model):
-    __tablename__ = "departments"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(120))
-    admin_id = db.Column(db.Integer)
-
-    def get_departments(self):
-        result = self.__class__.query.with_entities(
-            self.__class__.id,
-            self.__class__.name
-        ).all()
-        return list(result)
-
-
 class Issue(db.Model):
     __tablename__ = "issues"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(120))
     description = db.Column(db.String(250))
-    user = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.Column(db.Integer, db.ForeignKey(User.id))
     priority = db.Column(db.Integer)
     status = db.Column(db.Integer)
     department = db.Column(db.Integer)
@@ -71,6 +70,16 @@ class Issue(db.Model):
 
     def __repr__(self):
         return 'Id: %s title: %s user: %s ' % (self.id, self.title, self.user)
+
+
+class AssignedIssue(db.Model):
+    __tablename__ = "assigned_issue"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user = db.Column(db.Integer, db.ForeignKey(User.id))
+    issue = db.Column(db.Integer, db.ForeignKey(Issue.id))
+
+    def __repr__(self):
+        return "Issue: %s User: %s " % (self.issue, self.user)
 
 
 class IssueStatus(object):

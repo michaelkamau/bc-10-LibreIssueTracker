@@ -58,27 +58,27 @@
     <div class="row issue-list">
     <table class="bordered">
         <tbody>
-            {% for issue in issues_list %}
-            <tr>
+            {% for issue,user in issues_list %}
+            <tr></tr>
                 <td>
                     <div class="issue_status">
-                        <a href="/issues/{{ issue.id }}"><i class="high medium material-icons ">label</i></a>
+                        <a href="/issues/{{ issue.id }}"><i class="high small material-icons ">label</i></a>
                     </div>
                 </td>
                 <td>
                     <div>
                         <h3 class="issue-title">
-                            <a href="/issues/{{ issue.id }}" class="high" >#{{issue.id}} {{issue.title}}</a>
+                            <a href="/issues/{{ issue.id }}" class="high" >#{{issue.id}} {{ issue.title }}</a>
                         </h3>
                         <p>
-                            Created by brian
+                            raised by {{user.fullname}}
                         </p>
                     </div>
                 </td>
                 <td>
                     <div>
                         <span>Assinged to</span><br >
-                        <span>{{issue.user}}Brian</span>
+                        <span>Unknown</span>
                     </div>
                 </td>
 
