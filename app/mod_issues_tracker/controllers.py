@@ -59,7 +59,7 @@ def get_issues():
 @mod_issue_tracker.route('/<int:issue_id>', methods=['GET', 'POST'])
 @login_required
 def get_issue_by_id(issue_id):
-    form = AssignIssueForm()
+    form = AssignIssueForm(request.form)
 
     if request.method == 'POST':
         assign_user = form.users.data

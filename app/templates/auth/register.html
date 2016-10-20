@@ -17,6 +17,7 @@
     }
 
     .card-panel {
+
         margin-top: 40px;
         margin-bottom: 20px;
         width: 500px;
@@ -34,10 +35,10 @@
 
     <div class="row">
         <div class="input-field col s12">
-          <input id="{{form.first_name.id}}" type="text" name={{form.first_name.id}} class="validate">
-          <label for="{{form.first_name.id}}">First Name</label>
+            <input id="{{form.first_name.id}}" type="text" name={{form.first_name.id}} class="validate">
+            <label for="{{form.first_name.id}}">First Name</label>
         </div>
-        </div>
+    </div>
     <div class="row">
         <div class="input-field col s12">
           <input id="{{form.last_name.id}}" name={{form.last_name.id}} type="text" class="validate">
@@ -68,18 +69,19 @@
             <select id="{{form.department.id}}" name="department">
                 <option value="-">----</option>
                 {% for department in form.department.choices %}
-                    <option value="{{department.id}}">{{department.name}}</option>
+                <option value="{{department.id}}">{{department.name}}</option>
                 {% endfor %}
             </select>
             <label for="{{form.department.id}}">Department</label>
         </div>
 
     </div>
-<div class="row">
-    <div class="input-field col s12">
-        <button class="btn waves-effect waves-light margin right" type="submit" name="create_user">Create Account</button>
+
+    <div class="row">
+        <div class="input-field col s12">
+            <button class="btn waves-effect waves-light margin right" type="submit" name="create_user">Create Account</button>
+        </div>
     </div>
-</div>
 
 </form>
     <div class="row">
