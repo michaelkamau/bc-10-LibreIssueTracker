@@ -25,12 +25,22 @@
         <div class="nav-wrapper">
           <a href="/" class="brand-logo"><i class="material-icons large icon-demo">insert_chart</i></a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+              {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+              {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+              {% endif %}
           </ul>
         </div>
       </nav>
         </div>
     {% endblock %}
+
+    {% for message in get_flashed_messages() %}
+    <p>
+        {{message}}
+    </p>
+{% endfor %}
 
     {% block content %}
    <hr />

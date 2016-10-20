@@ -28,6 +28,7 @@
     }
 </style>
 
+
 <div class="card-panel">
 <form class="col s6" method="post" action="{{ url_for('auth.register') }}">
 
@@ -59,12 +60,6 @@
         <div class="input-field col s12">
               <input id="{{form.password.id}}" type="password" name={{form.password.id}} class="validate">
               <label for="{{form.password.id}}">Password</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-              <input id="{{form.confirm_password.id}}" type="password" name={{form.confirm_password.id}} class="validate">
-              <label for="{{form.confirm_password.id}}">Confirm Password</label>
         </div>
     </div>
 
