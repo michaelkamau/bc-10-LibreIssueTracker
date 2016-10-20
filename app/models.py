@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from flask_login import UserMixin
-from sqlalchemy.orm import relationship
 
 from app import db
 
@@ -37,6 +36,9 @@ class User(db.Model, UserMixin):
         self.role = role
         self.verified = verified
         self.department = department
+
+    def is_admin(self):
+        return self.role == 1
 
     def __repr__(self):
         return 'User %s email %s first %slast %s department %s ' % (self.username,
@@ -79,6 +81,11 @@ class Comment(db.Model):
         return "Issue_id: %s Comment_id: %s " % (self.issue_id, self.admin_comment)
 
 
+class Role(object):
+    admin = 1
+    user = 0
+
+
 class IssueStatus(object):
     OPEN = 0
     IN_PROGRESS = 1
@@ -87,3 +94,5 @@ class IssueStatus(object):
     LOW = 0
     MEDIUM = 1
     HIGH = 2
+
+

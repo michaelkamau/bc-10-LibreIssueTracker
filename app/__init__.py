@@ -2,6 +2,7 @@
 from flask import Flask
 
 # Import SQLAlchemy
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -9,13 +10,15 @@ app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
 
-from app.mod_auth.controllers import mod_auth as auth_module
-from app.mod_issues_tracker.controllers import mod_issue_tracker as issue_tracker_module
-from app.mod_index.controller import mod_index as index_module
+from app.mod_auth.controllers import mod_auth
+from app.mod_issues_tracker.controllers import mod_issue_tracker
+from app.mod_index.controller import mod_index
+from app.mod_admin.controllers import mod_admin
 
-app.register_blueprint(auth_module)
-app.register_blueprint(issue_tracker_module)
-app.register_blueprint(index_module)
+app.register_blueprint(mod_auth)
+app.register_blueprint(mod_issue_tracker)
+app.register_blueprint(mod_index)
+app.register_blueprint(mod_admin)
 # ..
 
 # Build the database:

@@ -9,7 +9,7 @@ class NewIssueForm(Form):
     department = SelectField(id="department",
                              choices=Department().query.with_entities(Department.id, Department.name).all())
     priority = RadioField(id="priority", choices=[
-        ("low", "Low"), ("medium", "Medium"), ("high", "High")
+        ("low", "Low"), ("med", "Medium"), ("high", "High")
     ])
     description = TextAreaField(id="description")
 

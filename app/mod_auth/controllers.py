@@ -1,11 +1,11 @@
 from flask import render_template, request, flash, redirect, url_for, Blueprint
 from flask import session
-from flask_login import login_user, logout_user, LoginManager
+from flask_login import login_user, logout_user, LoginManager, current_user
 
 from app import db, app
 from app.mod_auth.views import LoginForm
 from app.mod_auth.views import RegistrationForm
-from app.models import User, Department
+from app.models import User
 
 mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -70,17 +70,12 @@ def login():
     return render_template('auth/login.html', form=form)
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(user_id)
-
-
 def get_current_user_role():
-    pass
+    return current_user.is_admin()
 
 
 def error_response():
-    pass
+    return "You've got no permission to access this page.", 403
 
 
 def requires_roles(*roles):
@@ -96,3 +91,10 @@ def requires_roles(*roles):
         return wrapped
 
     return wrapper
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+

@@ -1,24 +1,32 @@
 {% extends "static/base.html" %}
 {% block title %}
-    Issue List
+Issue List
 {% endblock %}
 
 {% block content %}
 
 <style type="text/css" xmlns="http://www.w3.org/1999/html">
 
-    .high{
+    .med{
         color: #f39f09 !important;
     }
 
+     .card-panel {
+        margin-top: 40px;
+        margin-bottom: 20px;
+        width: 70%;
+        padding: 10px;
+            margin-right: auto !important;
+    margin-left: auto !important;
+        padding-top: 20px;
+        border-radius: 5px;
+    }
 
-    .medium{
+
+    .high{
         color: #f44336
     }
 
-    .low{
-            color: #6da79b;
-    }
 
     .issue-title{
         font: 700 16px/20px "Gotham SSm A","Gotham SSm B","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -54,38 +62,45 @@
             }
 
 
+
 </style>
-    <div class="row issue-list">
+<div class="row card-panel issue-list" style="margin-top: 20px;">
     <table class="bordered">
         <tbody>
-            {% for issue,user in issues_list %}
-            <tr></tr>
-                <td>
-                    <div class="issue_status">
-                        <a href="/issues/{{ issue.id }}"><i class="high small material-icons ">label</i></a>
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        <h3 class="issue-title">
-                            <a href="/issues/{{ issue.id }}" class="high" >#{{issue.id}} {{ issue.title }}</a>
-                        </h3>
-                        <p>
-                            raised by {{user.fullname}}
-                        </p>
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        <span>Assinged to</span><br >
-                        <span>Unknown</span>
-                    </div>
-                </td>
+        {% for issue,user in issues_list %}
+        <tr>
+            <td>
+                <div class="issue_status">
+                    <a href="/issues/{{ issue.id }}">
+                        <i class="{{issue.priority}} small material-icons ">label</i>
+                    </a>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <h3 class="issue-title">
+                        <a href="/issues/{{ issue.id }}" class="{{issue.priority}} ">#{{issue.id}} {{ issue.title }}</a>
+                    </h3>
+                    <p style="font-size: 12px;">
+                        created by {{user.fullname}}
+                    </p>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span>Assinged to</span><br>
+                    <span>Unknown</span>
+                </div>
+            </td>
 
+            {% else %}
+                <p class="lead">You Haven't Posted any Issue<br />
+                <a href="/issues/new" >Post a New Issue</a>
+                    </p>
             {% endfor %}
 
         </tbody>
     </table>
-        </div>
+</div>
 
 {% endblock %}

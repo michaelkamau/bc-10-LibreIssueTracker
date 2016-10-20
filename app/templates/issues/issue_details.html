@@ -8,16 +8,15 @@
 <style type="text/css" xmlns="http://www.w3.org/1999/html">
 
     .high{
-        color: #f39f09 !important;
-    }
-
-
-    .medium{
         color: #f44336
     }
 
+    .med{
+        color: #f39f09 !important;
+    }
+
     .low{
-            color: #6da79b;
+            color: #039be5;
     }
 
     .issue-title{
@@ -66,13 +65,26 @@
     <div class="card-panel">
 
         <div class="row">
-            <span class="high issue-title"># {{ issue.0.0.id}} &bull; HIGH &bull; IN PROGRESS</span>
+            <span class="{{ issue.0.0.priority}} issue-title">#
+                {{ issue.0.0.id}}
+                &bull;
+                {{issue.0.0.title}}
+                &bull;
+                {% if issue.0.0.priority == 'low' %}
+                    LOW
+                {% elif issue.0.0.priority == 'med' %}
+                    MEDIUM
+                {% elif issue.0.0.priority == 'high' %}
+                    HIGH
+                {% endif %}
+                &bull;
+                IN PROGRESS
+            </span>
             <hr>
-            <label>Subject: </label><span class="high issue-title">{{issue.0.0.title}} </span> <br/>
-            <label>Raised By: </label><span class="">{{issue.0.1.fullname}} </span> <br/>
+            <label>Created By: </label><span class="">{{issue.0.1.fullname}} </span> <br/>
             <label>Assigned To: </label><span class="">{{issue.0.1.fullname}} </span> <br/>
             <label for="description">Description </label><br>
-            <textarea style="overflow-y: scroll; resize: none; min-height: 180px;     width: 80%;" id="description"
+            <textarea style="overflow-y: scroll;   width: 80%;" id="description"
                       readonly>{{issue.0.0.description}}</textarea>
         </div>
         <div class="row">

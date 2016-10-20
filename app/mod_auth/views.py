@@ -1,4 +1,5 @@
-from wtforms import Form, PasswordField, StringField, SelectField
+from wtforms import Form, PasswordField, SelectField
+from wtforms import StringField
 from wtforms.validators import DataRequired, Email
 
 from app.models import Department

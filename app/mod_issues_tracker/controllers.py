@@ -1,7 +1,7 @@
 from flask import render_template, request, flash, redirect, Blueprint
 from flask import session
 from flask import url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from app import db
 from app.mod_issues_tracker.views import NewIssueForm, AssignIssueForm
@@ -45,7 +45,13 @@ def add_new_issue():
 @mod_issue_tracker.route('/', methods=['GET'])
 @login_required
 def get_issues():
-    issues_list = db.session.query(Issue, User).filter(User.id == Issue.user).all()
+
+    if current_user.is_admin():
+        issues_list = db.session.query(Issue, User).filter(User.id == Issue.user).all()
+    else:
+        user_id = current_user.get_id()
+        issues_list = db.session.query(Issue, User).filter(User.id == Issue.user, Issue.user == user_id)\
+            .all()
 
     return render_template('issues/issues_list.html', issues_list=issues_list)
 
@@ -59,7 +65,7 @@ def get_issue_by_id(issue_id):
         assign_user = form.users.data
         admin_comment = form.admin_comment.data
 
-        #todo fix erroe not create new comments
+        # todo fix error not create new comments
         assigned_issue = AssignedIssue(user_id=assign_user, issue_id=issue_id)
 
         if admin_comment:
