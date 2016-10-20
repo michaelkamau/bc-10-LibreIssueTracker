@@ -24,7 +24,7 @@ Issue List
 
 
     .high{
-        color: #f44336
+        color: #f44336;
     }
 
 
@@ -63,44 +63,46 @@ Issue List
 
 
 
+
 </style>
 <div class="row card-panel issue-list" style="margin-top: 20px;">
-    <table class="bordered">
-        <tbody>
-        {% for issue,user in issues_list %}
-        <tr>
-            <td>
-                <div class="issue_status">
-                    <a href="/issues/{{ issue.id }}">
-                        <i class="{{issue.priority}} small material-icons ">label</i>
-                    </a>
-                </div>
-            </td>
-            <td>
-                <div>
-                    <h3 class="issue-title">
-                        <a href="/issues/{{ issue.id }}" class="{{issue.priority}} ">#{{issue.id}} {{ issue.title }}</a>
-                    </h3>
-                    <p style="font-size: 12px;">
-                        created by {{user.fullname}}
-                    </p>
-                </div>
-            </td>
-            <td>
-                <div>
-                    <span>Assinged to</span><br>
-                    <span>Unknown</span>
-                </div>
-            </td>
 
-            {% else %}
-                <p class="lead">You Haven't Posted any Issue<br />
-                <a href="/issues/new" >Post a New Issue</a>
+     <table>
+        <thead>
+          <tr>
+          </tr>
+        </thead>
+         <tbody>
+            <tr>
+                <td>
+                    open
+                </td>
+                <td>
+                    <p>
+                        title<br>
+                        brian
                     </p>
-            {% endfor %}
-
-        </tbody>
-    </table>
+                </td>
+                <td>
+                    Brian
+                </td>
+            </tr>
+         <tr>
+                <td>
+                    open
+                </td>
+                <td>
+                    <p>
+                        title<br>
+                        brian
+                    </p>
+                </td>
+                <td>
+                    Brian
+                </td>
+            </tr>
+         </tbody>
+     </table>
 </div>
 
 {% endblock %}

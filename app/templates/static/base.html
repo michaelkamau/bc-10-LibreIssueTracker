@@ -2,59 +2,70 @@
 <html lang="en">
 <head>
     {% block head %}
-    <title>{% block title %}Home{% endblock %} | Issue Tracker</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
 
-    <style>
-        body {
-            background: #f5f5f5;
-           }
-         nav {
-                background-color: #03a9f4;
-         }
-    </style>
-    {% endblock %}
+     <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>{% endblock %}
 </head>
 <body>
 
     {% block nav %}
-    <div class="navbar-fixed">
-      <nav>
-        <div class="nav-wrapper">
-          <a href="/" class="brand-logo"><i class="material-icons large icon-demo">insert_chart</i></a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-              {% if current_user.is_authenticated %}
-                {% if current_user.is_admin() %}
-                    <li><a href="{{ url_for('admin.manage_departments') }}">Departments</a></li>
-                {% endif %}
-                <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-              {% else %}
-                <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-              {% endif %}
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        
+   
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Issues<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ url_for('issues.add_new_issue') }}">Post New Issue</a></li>
+            <li><a href="{{url_for('issues.get_issues')}}">My Issues</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Assigned Issues</a></li>
           </ul>
-        </div>
-      </nav>
-        </div>
+        </li>
+      </ul>
+      </ul>
+    <ul class="nav navbar-nav navbar-right">
+        {% if current_user.is_authenticated%}
+        {% if current_user.is_admin() %}
+        <li>
+            <a href="{{ url_for('admin.manage_departments') }}"><i class="fa fa-sign-out"></i>Manage Departments</a>
+        </li>
+        {% endif %}
+        <li>
+        <a href="{{ url_for('auth.logout') }}"><i class="fa fa-sign-out"></i>Sign Out</a>
+        </li>
+        {% else %}
+        <a href="{{ url_for('auth.login') }}"><i class="fa fa-sign-in"></i>Sign In</a>
+        {% endif %}
+
+
+    </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
     {% endblock %}
 
     {% for message in get_flashed_messages() %}
     <p>
-        {{message}}
+        <div class="alert alert-info">{{message}}</div>
     </p>
 {% endfor %}
 
     {% block content %}
-   <hr />
-    <a href="/issues/new" >New Issue</a><br />
-    <a href="/issues" >Issues</a><br />
-    <a href="/issues/assign" >Assign Issue</a>
-       <hr />
 
     {% endblock %}
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
-    {% block scripts %} {% endblock %}
+  {% block scripts %}
+
+    {% endblock %}
 </body>
 </html>

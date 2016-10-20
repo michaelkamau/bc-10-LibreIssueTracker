@@ -1,107 +1,86 @@
 {% extends "static/base.html" %}
 {% block title %}
-Log in
+Departments
 {% endblock %}
 
 {% block content %}
-<style>
+
+<div class="container">
 
 
-      .card-panel{
-        width : 90%;
-        padding: 10px !important;
-        margin: 0;
-        margin-bottom: 5px;
-        margin-top: 40px;
-      }
+    <span>Current Departments</span>
+    <hr/>
 
+    <table>
+        <thead>
+        <tr>
 
+            <th>Name</th>
+            <th>Head Of Department</th>
 
-
-
-
-
-
-</style>
-<div class="row">
-    <div class="col s6">
-        <div class="issue-list card-panel">
-            <span>Current Departments</span>
-            <hr/>
-
-            <table class="bordered center">
-                <thead>
-                <th>Name</th>
-                <th>Head Of Department</th>
-                </thead>
-                <tbody>
-                {% for department in departments %}
-                <tr>
-                    <td>
-                        <div>
-                            <a href="{{url_for('admin.manage_departments')}}/{{ department.0 }}">{{department.1}}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <span>{{department.2}}</span>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-
-    <div class="col s6">
-        <div class="card-panel">
-            <span>Create New Department</span>
-            <hr/>
-            <form method="post" action="{{ url_for('admin.manage_departments') }}">
-                <div class="row">
-                    <div class="input-field col s12">
-                        <label for="{{form.department_name.id}}">Name</label>
-                        <input id="{{form.department_name.id}}" type="text" name="{{form.department_name.id}}" class="validate">
-
-                    </div>
+        </tr>
+        </thead>
+        <tbody>
+        {% for department in departments %}
+        <tr>
+            <td>
+                <div>
+                    <a href="{{url_for('admin.manage_departments')}}/{{ department.0 }}">{{department.1}}</a>
                 </div>
-
-                <div class="row">
-                    <div class="input-field col s12">
-                        <select id="{{form.users.id}}" name="{{form.users.id}}">
-                            <option value="-">----</option>
-                            {% for user in form.users.choices %}
-                            <option value="{{user.id}}">{{user.fullname}}</option>
-                            {% endfor %}
-                        </select>
-                        <label for="{{form.users.id}}">Name Of Admin</label>
-                    </div>
+            </td>
+            <td>
+                <div>
+                    <span>{{department.2}}</span>
                 </div>
-
-                <div class="row">
-                    <div class="input-field col s12">
-                        <button class="btn waves-effect waves-light margin right" type="submit">Create Department
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-    </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 </div>
+
+
+<div class="container">
+    <div>
+        <span>Create New Department</span>
+        <hr/>
+        <form method="post" action="{{ url_for('admin.manage_departments') }}">
+            <div class="row">
+
+                <label for="{{form.department_name.id}}">Name</label>
+                <input id="{{form.department_name.id}}" type="text" name="{{form.department_name.id}}"
+                       class="validate">
+
+
+            </div>
+
+            <div class="row">
+                <label for="{{form.users.id}}">Name Of Admin</label>
+                <select id="{{form.users.id}}" name="{{form.users.id}}">
+                    <option value="-">----</option>
+                    {% for user in form.users.choices %}
+                    <option value="{{user.id}}">{{user.fullname}}</option>
+                    {% endfor %}
+                </select>
+
+
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <button class="btn waves-effect waves-light margin right" type="submit">Create Department
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
 
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript">
-        $(document).ready(function() {
-    $('select').material_select();
-  });
 
-
-
-</script>
 {% endblock %}

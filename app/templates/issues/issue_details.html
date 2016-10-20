@@ -5,66 +5,9 @@
 
 {% block content %}
 
-<style type="text/css" xmlns="http://www.w3.org/1999/html">
+<div class="container">
 
-    .high{
-        color: #f44336
-    }
-
-    .med{
-        color: #f39f09 !important;
-    }
-
-    .low{
-            color: #039be5;
-    }
-
-    .issue-title{
-        font: 700 16px/20px "Gotham SSm A","Gotham SSm B","Helvetica Neue",Helvetica,Arial,sans-serif;
-        letter-spacing: -.025em;
-        text-rendering: optimizeLegibility;
-        min-height: 22px;
-        margin : 5px
-    }
-     .issue-list {
-        width: 60%;
-        margin-right: auto;
-        margin-left: auto;
-        line-height: 1;
-       }
-
-
-
-      .card-panel {
-        margin-top: 40px;
-        margin-bottom: 20px;
-        width: 70%;
-        padding: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 20px;
-        border-radius: 5px;
-    }
-
-      td, th{
-        padding : 1px;
-      }
-
-          .truncate {
-              width: 100%;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-
-
-
-</style>
-
-<div class="row">
-    <div class="card-panel">
-
-        <div class="row">
+    <div class="row">
             <span class="{{ issue.0.0.priority}} issue-title">#
                 {{ issue.0.0.id}}
                 &bull;
@@ -80,68 +23,74 @@
                 &bull;
                 IN PROGRESS
             </span>
-            <hr>
-            <label>Created By: </label><span class="">{{issue.0.1.fullname}} </span> <br/>
-            <label>Assigned To: </label><span class="">{{issue.0.1.fullname}} </span> <br/>
-            <label for="description">Description </label><br>
-            <textarea style="overflow-y: scroll;   width: 80%;" id="description"
-                      readonly>{{issue.0.0.description}}</textarea>
-        </div>
-        <div class="row">
-            <form method=post action="/issues/{{ issue.0.0.id}}">
+        <hr>
+        <label>Created By: </label><span class="">{{issue.0.1.fullname}} </span> <br/>
 
-                <div class="row">
-                    <div class="input-field col s12">
-                        <select id="{{form.action_issue.id}}" name="action_issue">
-                            <option value="-">----</option>
-                            {% for action in form.action_issue.choices %}
-                            <option value="{{action.0}}">{{ action.1 }}</option>
-                            {% endfor %}
-                        </select>
-                        <label for="{{form.action_issue.id}}">Change Issue Status</label>
-                    </div>
-                </div>
+        {% if not current_user.is_admin() %}
+        <label>Assigned To: </label><span class="">{{issue.0.1.fullname}} </span> <br/>
+        {% endif %}
 
-
-                <div class="row">
-                    <div class="input-field col s12">
-                        <select id="{{form.users.id}}" name="{{form.users.id}}">
-                            <option value="-">----</option>
-                            {% for user in form.users.choices %}
-                            <option value="{{user.id}}">{{user.fullname}}</option>
-                            {% endfor %}
-                        </select>
-                        <label for="{{form.users.id}}">Assign To</label>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="row description_div">
-                        <div class="input-field col s12">
-                            <textarea id="{{ form.admin_comment.id }}" name="{{ form.admin_comment.id }}"
-                                      class="materialize-textarea"></textarea>
-                            <label for="{{ form.admin_comment.id }}">Comment</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="input-field col s12">
-                        <button class="btn waves-effect waves-light margin" type="submit" value="save" name="save">Save</button>
-                    </div>
-                </div>
-
-            </form>
-        </div>
+        <label for="description">Description </label><br>
+        <textarea style="overflow-y: scroll;   width: 80%;" id="description"
+                  readonly>{{issue.0.0.description}}</textarea>
     </div>
-</div>
-{% endblock %}
 
-{% block scripts %}
-<script type="text/javascript">
-        $(document).ready(function() {
-    $('select').material_select();
-  });
+    {% if current_user.is_admin() %}
+    <div class="row">
+        <form method=post action="/issues/{{ issue.0.0.id}}">
 
-</script>
-{% endblock %}
+            <div class="row">
+                <label for="{{form.action_issue.id}}">Change Issue Status</label>
+                <select id="{{form.action_issue.id}}" name="action_issue">
+                    <option value="-">----</option>
+                    {% for action in form.action_issue.choices %}
+                    <option value="{{action.0}}">{{ action.1 }}</option>
+                    {% endfor %}
+                </select>
+
+
+            </div>
+
+
+            <div class="row">
+                <label for="{{form.users.id}}">Assign To</label>
+                <select id="{{form.users.id}}" name="{{form.users.id}}">
+                    <option value="-">----</option>
+                    {% for user in form.users.choices %}
+                    <option value="{{user.id}}">{{user.fullname}}</option>
+                    {% endfor %}
+                </select>
+
+
+            </div>
+
+            <div class="row">
+                <div class="row description_div">
+                    <label for="{{ form.admin_comment.id }}">Comment</label>
+                    <textarea id="{{ form.admin_comment.id }}" name="{{ form.admin_comment.id }}"
+                              class="materialize-textarea"></textarea>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <button class="btn waves-effect waves-light margin" type="submit" value="save" name="save">
+                        Save
+                    </button>
+
+                </div>
+                </div>
+
+        </form>
+        </div>
+
+
+        {% endif %}
+
+    </div>
+    {% endblock %}
+
+    {% block scripts %}
+
+    {% endblock %}

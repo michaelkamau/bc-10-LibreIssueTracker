@@ -1,64 +1,79 @@
 {% extends "static/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block title %}
     Log in
 {% endblock %}
 
 {% block content %}
+<style>
+    body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
 
-<style type="text/css">
-
-    .row{
-        margin-bottom: 0;
-    }
-
-    .input-field {
-        margin-top : 0;
-    }
-
-    .card-panel {
-        margin-top: 40px;
-        margin-bottom: 20px;
-        width: 500px;
-        padding: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 20px;
-        border-radius: 5px;
-    }
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
 </style>
-<div class="card-panel">
-<form method=post action="/auth/login">
+<div class="container">
+ <form class="form-signin" method="post" action="{{ url_for('auth.login') }}">
     <div class="row">
-        <div class="input-field col s12">
-          <input id="{{form.username.id}}" type="text" name={{form.username.id}} class="validate">
-          <label for="{{form.username.id}}">Username</label>
-        </div>
+        <label for="{{form.username.id}}">Username</label>
+        <input id="{{form.username.id}}" type="text" name={{form.username.id}} class="validate">
+
     </div>
 
     <div class="row">
-        <div class="input-field col s12">
+            <label for="{{form.password.id}}">Password</label>
           <input id="{{form.password.id}}" type="password" name={{form.password.id}} class="validate">
-          <label for="{{form.password.id}}">Password</label>
-        </div>
+
+
     </div>
 
     <div class="row">
-    <div class="input-field col s12">
+
         <button class="btn waves-effect waves-light margin right" type="submit" name="log_in">Log In</button>
     </div>
-    </div>
+
 
 </form>
-    <div class="row">
-        <div class="input-field col s12">
-        <p class="margin center medium-small">
-            <a href="{{ url_for('auth.register') }}" class="right">Forgot Password?</a>
+    <div class="container">
              <a href="{{ url_for('auth.register') }}" class="left">Register Now?</a>
         </p>
-            </div>
-    </div>
 
-</form>
+    </div>
 </div>
 
 {% endblock %}

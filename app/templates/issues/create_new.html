@@ -1,91 +1,48 @@
 {% extends "static/base.html" %}
 {% block title %}
-    Create New Issue
+    Post New Issue
 {% endblock %}
 
 {% block content %}
 
-<style type="text/css">
-
-    .row{
-        margin-bottom: 0;
-    }
-
-    .collapsible-body p{
-        padding: 5px;
-        margin-left: 45px;
-        min-height: 40px
-    }
-
-    .input-field {
-        margin-top : 0;
-    }
-
-    form p {
-        margin-bottom: 15px !important;
-    }
-
-    .card-panel {
-        margin-top: 40px;
-        margin-bottom: 20px;
-        width: 500px;
-        padding: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 20px;
-        border-radius: 5px;
-    }
-
-    [type="radio"]:not(:checked)+label, [type="radio"]:checked+label {
-    padding-left: 25px;
-        margin-right: 25px;
-    }
-    .description_div{
-        margin-top: 20px;
-    }
-</style>
-
-<div class="card-panel">
-<form method=post  class="col s6" action="/issues/new">
+<div class="container">
+<form method=post  role="form" action="{{url_for('issues.add_new_issue')}}">
 
     <div class="row">
-        <div class="input-field col s12">
+        <label for="{{form.title.id}}">Subject</label>
           <input id="{{form.title.id}}" type="text" name={{form.title.id}} class="validate">
-          <label for="{{form.title.id}}">Subject</label>
-        </div>
         </div>
 
     <div class="row">
-        <div class="input-field col s12">
+        <label for="{{form.department.id}}">To Department</label>
             <select id="{{form.department.id}}" name="department">
                 {% for department in form.department.choices %}
                     <option value="{{department.id}}">{{department.name}}</option>
                 {% endfor %}
             </select>
-            <label for="{{form.department.id}}">To Department</label>
+
         </div>
 
-    </div>
 
     <div class="row">
-        <div class="input-field col s8">
-            <label for="{{ form.priority.id }}" style="position: relative; top: 0;">Priority</label>
+
+        <label for="{{ form.priority.id }}">Priority</label>
         <div id="{{ form.priority.id }}">
             {% for priority in form.priority.choices %}
-            <input name="{{form.priority.id}}" type="radio" value="{{ priority.0 }}" id="{{ priority.0 }}" />
             <label for="{{ priority.0 }}">{{ priority.1 }}</label>
+            <input name="{{form.priority.id}}" type="radio" value="{{ priority.0 }}" id="{{ priority.0 }}" />
+
              {% endfor %}
         </div>
 
-        </div>
     </div>
 
     <div class="row description_div">
-        <div class="input-field col s12">
-            <textarea id="{{ form.description.id }}" name="{{ form.description.id }}" class="materialize-textarea"></textarea>
             <label for="{{ form.description.id }}">Description</label>
+            <textarea id="{{ form.description.id }}" name="{{ form.description.id }}" ></textarea>
+
         </div>
-    </div>
+
 
 
     <div class="row">

@@ -1,107 +1,80 @@
-
 {% extends "static/base.html" %}
 {% block title %}
-    Create User
+Create User
 {% endblock %}
 
 {% block content %}
 
-<style type="text/css">
 
-    .row{
-        margin-bottom: 0;
-    }
+<div class="container">
+    <form method="post" action="{{ url_for('auth.register') }}">
 
-    .input-field {
-        margin-top : 0;
-    }
+        <div class="row">
+            <label for="{{form.username.id}}">Username</label>
+            <input id="{{form.username.id}}" name={{form.username.id}} type="text" class="validate">
 
-    .card-panel {
-
-        margin-top: 40px;
-        margin-bottom: 20px;
-        width: 500px;
-        padding: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 20px;
-        border-radius: 5px;
-    }
-</style>
-
-
-<div class="card-panel">
-<form class="col s6" method="post" action="{{ url_for('auth.register') }}">
-
-    <div class="row">
-        <div class="input-field col s12">
-            <input id="{{form.first_name.id}}" type="text" name={{form.first_name.id}} class="validate">
-            <label for="{{form.first_name.id}}">First Name</label>
         </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-          <input id="{{form.last_name.id}}" name={{form.last_name.id}} type="text" class="validate">
-          <label for="{{form.last_name.id}}">Last Name</label>
+
+        <div class="row">
+            <label for="{{form.password.id}}">Password</label>
+            <input id="{{form.password.id}}" type="password" name={{form.password.id}} class="validate">
+
+
         </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-              <input id="{{form.username.id}}" name={{form.username.id}} type="text" class="validate">
-              <label for="{{form.username.id}}">Username</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <input id="{{form.email.id}}" type="email" name={{form.email.id}} class="validate">
+
+        <div class="row">
             <label for="{{form.email.id}}">Email</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-              <input id="{{form.password.id}}" type="password" name={{form.password.id}} class="validate">
-              <label for="{{form.password.id}}">Password</label>
-        </div>
-    </div>
+            <input id="{{form.email.id}}" type="email" name={{form.email.id}} class="validate">
 
-    <div class="row">
-        <div class="input-field col s12">
+        </div>
+
+        <div class="row">
+            <label for="{{form.first_name.id}}">First Name</label>
+            <input id="{{form.first_name.id}}" type="text" name={{form.first_name.id}} class="validate">
+
+        </div>
+        <div class="row">
+            <label for="{{form.last_name.id}}">Last Name</label>
+            <input id="{{form.last_name.id}}" name={{form.last_name.id}} type="text" class="validate">
+
+        </div>
+
+
+        <div class="row">
+            <label for="{{form.department.id}}">Department</label>
             <select id="{{form.department.id}}" name="department">
                 <option value="-">----</option>
                 {% for department in form.department.choices %}
                 <option value="{{department.id}}">{{department.name}}</option>
                 {% endfor %}
             </select>
-            <label for="{{form.department.id}}">Department</label>
+
         </div>
 
-    </div>
 
-    <div class="row">
-        <div class="input-field col s12">
-            <button class="btn waves-effect waves-light margin right" type="submit" name="create_user">Create Account</button>
-        </div>
-    </div>
+<div class="row">
+
+        <button class="btn waves-effect waves-light margin right" type="submit" name="create_user">Create
+            Account
+        </button>
+
+</div>
 
 </form>
-    <div class="row">
-        <div class="input-field col s12">
+<div class="row">
+
         <p class="margin center medium-small">
             Already have an account?
             <a href="{{ url_for('auth.login') }}">Login</a>
         </p>
-            </div>
-    </div>
+
+</div>
 
 </div>
 {% endblock %}
 
 {% block scripts %}
-      <script type="text/javascript">
-        $(document).ready(function() {
-    $('select').material_select();
-  });
-    </script>
+
 {% endblock %}
 
 

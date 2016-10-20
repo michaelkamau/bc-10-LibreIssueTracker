@@ -2,10 +2,12 @@ from flask import render_template, request, flash, redirect, Blueprint
 from flask import session
 from flask import url_for
 from flask_login import login_required, current_user
+from sqlalchemy import text
 
 from app import db
 from app.mod_issues_tracker.views import NewIssueForm, AssignIssueForm
-from app.models import Issue, User, Comment, AssignedIssue
+from app.models import Issue, User, Comment, AssignedIssue, IssueStatus
+from sqlalchemy import update
 
 mod_issue_tracker = Blueprint('issues', __name__, url_prefix='/issues')
 
@@ -64,8 +66,20 @@ def get_issue_by_id(issue_id):
     if request.method == 'POST':
         user_id = form.users.data
         admin_comment = form.admin_comment.data
+        action_issue = form.action_issue.data
 
-        # todo fix error not create new comments
+        if int(action_issue) == IssueStatus.CLOSED:
+            db.engine.execute(text("UPDATE Issues SET status = "+ str(action_issue) +" WHERE id = " + str(issue_id)))
+            flash("Closed Issue #"+str(issue_id))
+        elif int(action_issue) == IssueStatus.OPEN:
+            db.engine.execute(text("UPDATE Issues SET status = " + str(action_issue) + " WHERE id = " + str(issue_id)))
+            flash("Reopened Issue #" + str(issue_id))
+        elif int(action_issue) == IssueStatus.IN_PROGRESS:
+            db.engine.execute(text("UPDATE Issues SET status = " + str(action_issue) + " WHERE id = " + str(issue_id)))
+            flash("Closed Issue #" + str(issue_id) )
+
+        print action_issue
+
         assign_issue = AssignedIssue(user_id=user_id, issue_id=issue_id)
 
         if admin_comment:
