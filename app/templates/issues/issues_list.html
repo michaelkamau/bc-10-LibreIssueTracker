@@ -5,104 +5,62 @@ Issue List
 
 {% block content %}
 
-<style type="text/css" xmlns="http://www.w3.org/1999/html">
-
-    .med{
-        color: #f39f09 !important;
-    }
-
-     .card-panel {
-        margin-top: 40px;
-        margin-bottom: 20px;
-        width: 70%;
-        padding: 10px;
-            margin-right: auto !important;
-    margin-left: auto !important;
-        padding-top: 20px;
-        border-radius: 5px;
-    }
-
+<style>
 
     .high{
-        color: #f44336;
+        color :#e53935 ;
     }
 
-
-    .issue-title{
-        font: 700 16px/20px "Gotham SSm A","Gotham SSm B","Helvetica Neue",Helvetica,Arial,sans-serif;
-        letter-spacing: -.025em;
-        text-rendering: optimizeLegibility;
-        min-height: 22px;
-        margin : 5px
+    .med {
+        color: #ffa000;
     }
-     .issue-list {
-        width: 60%;
-        margin-right: auto;
-        margin-left: auto;
-        line-height: 1;
-       }
 
+    .low{
+        color : #0277bd;
+    }
 
+    .issue-title {
+        font-size : 16px;
+    }
 
-      .card-panel{
-        padding: 10px !important;
-        margin: 0;
-        margin-bottom: 5px;
-      }
-
-      td, th{
-        padding : 1px;
-      }
-
-          .truncate {
-              width: 100%;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-
-
-
-
+    .fa{
+            font-size: 38px;
+            vertical-align: middle;
+    }
 </style>
-<div class="row card-panel issue-list" style="margin-top: 20px;">
 
-     <table>
-        <thead>
-          <tr>
-          </tr>
-        </thead>
-         <tbody>
-            <tr>
-                <td>
-                    open
-                </td>
-                <td>
-                    <p>
-                        title<br>
-                        brian
-                    </p>
-                </td>
-                <td>
-                    Brian
-                </td>
-            </tr>
-         <tr>
-                <td>
-                    open
-                </td>
-                <td>
-                    <p>
-                        title<br>
-                        brian
-                    </p>
-                </td>
-                <td>
-                    Brian
-                </td>
-            </tr>
-         </tbody>
-     </table>
+<div class="container">
+
+    <table class="table table-hover">
+    <tbody>
+    {% for issue in issues_list %}
+      <tr>
+          <td>
+              <i class="fa fa-bookmark fa-2 {{issue.priority}} " aria-hidden="true"></i>
+          </td>
+
+          <td><p class="issue-title {{issue.priority}} ">
+              #{{issue.id}}	&#8226; {{issue.title}} 	&#8226;  {% if issue.status ==  0 %}
+              OPEN
+                                                              {% elif issue.status ==  1 %}
+                                                                IN PROGRESS
+                                                              {% elif issue.status ==  2 %}
+                                                                CLOSED
+                                                              {% endif %}
+               </p>
+              <span>created by: {{issue.fullname}}</span>
+
+          </td>
+
+          <td>
+                <i style="display: none"><issue.status/i>
+
+          </td>
+
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 {% endblock %}
