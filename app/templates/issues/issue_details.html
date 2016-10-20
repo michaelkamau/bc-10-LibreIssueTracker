@@ -105,10 +105,10 @@
 
                 <div class="row">
                     <div class="input-field col s12">
-                        <select id="{{form.users.id}}" name="assign_user">
+                        <select id="{{form.users.id}}" name="{{form.users.id}}">
                             <option value="-">----</option>
                             {% for user in form.users.choices %}
-                            <option value="{{user.id}}">{{ user.fullname }}</option>
+                            <option value="{{user.id}}">{{user.fullname}}</option>
                             {% endfor %}
                         </select>
                         <label for="{{form.users.id}}">Assign To</label>

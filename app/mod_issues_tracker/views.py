@@ -1,6 +1,7 @@
 from wtforms import Form, StringField, SelectField, TextAreaField
 from wtforms import RadioField
 
+from app import db
 from app.models import Department, User, IssueStatus
 
 
@@ -15,7 +16,9 @@ class NewIssueForm(Form):
 
 
 class AssignIssueForm(Form):
-    users = SelectField(id="assign_user", choices=User.query.with_entities(User.id, User.fullname).all())
+    users = SelectField(id='users',
+                        choices=db.session.query(User.id, User.fullname).all()
+                        )
     action_issue = SelectField(id="action_issue", choices=[(IssueStatus.CLOSED, "Close"),
                                                            (IssueStatus.IN_PROGRESS, "In Progress"),
                                                            (IssueStatus.OPEN, "Open")

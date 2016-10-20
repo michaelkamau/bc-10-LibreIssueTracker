@@ -68,7 +68,7 @@ class AssignedIssue(db.Model):
     issue_id = db.Column(db.Integer, db.ForeignKey(Issue.id))
 
     def __repr__(self):
-        return "Issue: %s User: %s " % (self.issue, self.user)
+        return "Issue: %s User: %s " % (self.issue_id, self.user_id)
 
 
 class Comment(db.Model):

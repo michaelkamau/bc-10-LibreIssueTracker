@@ -62,21 +62,23 @@ def get_issue_by_id(issue_id):
     form = AssignIssueForm(request.form)
 
     if request.method == 'POST':
-        assign_user = form.users.data
+        user_id = form.users.data
         admin_comment = form.admin_comment.data
 
         # todo fix error not create new comments
-        assigned_issue = AssignedIssue(user_id=assign_user, issue_id=issue_id)
+        assign_issue = AssignedIssue(user_id=user_id, issue_id=issue_id)
 
         if admin_comment:
             comment = Comment(issue_id=issue_id, admin_comment=admin_comment)
             db.session.add(comment)
 
-        db.session.add(assigned_issue)
+        db.session.add(assign_issue)
         db.session.commit()
 
-        flash("Assigned #" + str(issue_id) + " To " + session['username'])
+        flash("Assigned #" + str(issue_id) + " To " + user_id)
 
         return redirect(url_for('issues.get_issues'))
+
     issue = db.session.query(Issue, User).filter(User.id == Issue.user).filter_by(id=issue_id).all()
+
     return render_template('issues/issue_details.html', issue=issue, form=form)
