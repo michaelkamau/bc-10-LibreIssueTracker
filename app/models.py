@@ -5,21 +5,16 @@ from sqlalchemy.orm import relationship
 
 from app import db
 
+
 class Department(db.Model):
-    __tablename__ = "departments"
+    __tablename__ = "Departments"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(120))
     admin_id = db.Column(db.Integer)
 
-    def get_departments(self):
-        result = self.__class__.query.with_entities(
-            self.__class__.id,
-            self.__class__.name
-        ).all()
-        return list(result)
 
 class User(db.Model, UserMixin):
-    __tablename__ = 'users'
+    __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), unique=True)
@@ -43,14 +38,6 @@ class User(db.Model, UserMixin):
         self.verified = verified
         self.department = department
 
-    def get_users(self):
-        result = self.__class__.query.with_entities(
-            self.__class__.id,
-            self.__class__.fullname
-        ).all()
-
-        return list(result)
-
     def __repr__(self):
         return 'User %s email %s first %slast %s department %s ' % (self.username,
                                                                     self.email, self.first_name, self.last_name,
@@ -58,7 +45,7 @@ class User(db.Model, UserMixin):
 
 
 class Issue(db.Model):
-    __tablename__ = "issues"
+    __tablename__ = "Issues"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(120))
     description = db.Column(db.String(250))
@@ -73,13 +60,23 @@ class Issue(db.Model):
 
 
 class AssignedIssue(db.Model):
-    __tablename__ = "assigned_issue"
+    __tablename__ = "AssignedIssues"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user = db.Column(db.Integer, db.ForeignKey(User.id))
-    issue = db.Column(db.Integer, db.ForeignKey(Issue.id))
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    issue_id = db.Column(db.Integer, db.ForeignKey(Issue.id))
 
     def __repr__(self):
         return "Issue: %s User: %s " % (self.issue, self.user)
+
+
+class Comment(db.Model):
+    __tablename__ = "Comments"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    issue_id = db.Column(db.Integer, db.ForeignKey(Issue.id), index=True)
+    admin_comment = description = db.Column(db.String(250))
+
+    def __repr__(self):
+        return "Issue_id: %s Comment_id: %s " % (self.issue_id, self.admin_comment)
 
 
 class IssueStatus(object):

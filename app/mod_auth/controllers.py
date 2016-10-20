@@ -5,7 +5,7 @@ from flask_login import login_user, logout_user, LoginManager
 from app import db, app
 from app.mod_auth.views import LoginForm
 from app.mod_auth.views import RegistrationForm
-from app.models import User
+from app.models import User, Department
 
 mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -17,6 +17,7 @@ login_manager.login_view = "auth.login"
 @mod_auth.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
+
     if request.method == 'POST':
         user = User(
             username=form.username.data,
