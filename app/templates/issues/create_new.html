@@ -11,6 +11,12 @@
         margin-bottom: 0;
     }
 
+    .collapsible-body p{
+        padding: 5px;
+        margin-left: 45px;
+        min-height: 40px
+    }
+
     .input-field {
         margin-top : 0;
     }
@@ -45,7 +51,7 @@
     <div class="row">
         <div class="input-field col s12">
           <input id="{{form.title.id}}" type="text" name={{form.title.id}} class="validate">
-          <label for="{{form.title.id}}">Issue Summary</label>
+          <label for="{{form.title.id}}">Subject</label>
         </div>
         </div>
 
@@ -76,7 +82,7 @@
 
     <div class="row description_div">
         <div class="input-field col s12">
-            <textarea id="{{ form.description.id }}" class="materialize-textarea"></textarea>
+            <textarea id="{{ form.description.id }}" name="{{ form.description.id }}" class="materialize-textarea"></textarea>
             <label for="{{ form.description.id }}">Description</label>
         </div>
     </div>

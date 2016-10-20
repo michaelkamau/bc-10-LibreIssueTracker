@@ -5,12 +5,36 @@
 
 {% block content %}
 
-<style type="text/css">
-     .issue_list {
+<style type="text/css" xmlns="http://www.w3.org/1999/html">
+
+    .high{
+        color: #f39f09 !important;
+    }
+
+
+    .medium{
+        color: #f44336
+    }
+
+    .low{
+            color: #6da79b;
+    }
+
+    .issue-title{
+        font: 700 16px/20px "Gotham SSm A","Gotham SSm B","Helvetica Neue",Helvetica,Arial,sans-serif;
+        letter-spacing: -.025em;
+        text-rendering: optimizeLegibility;
+        min-height: 22px;
+        margin : 5px
+    }
+     .issue-list {
         width: 60%;
         margin-right: auto;
         margin-left: auto;
+        line-height: 1;
        }
+
+
 
       .card-panel{
         padding: 10px !important;
@@ -22,19 +46,46 @@
         padding : 1px;
       }
 
-</style>
+          .truncate {
+              width: 100%;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
 
-     <table class="issue_list">
-          <tbody>
-           {% for issue in issues_list %}
-          <tr>
-            <td>
-                <div class="card-panel">
-                    <span class="grey-text text-darken-2">{{issue.title}}</span>
-                </div>
-            </td>
-          </tr>
-          {% endfor %}
-          </tbody>
-     </table>
+
+</style>
+    <div class="row issue-list">
+    <table class="bordered">
+        <tbody>
+            {% for issue in issues_list %}
+            <tr>
+                <td>
+                    <div class="issue_status">
+                        <a href="/issues/{{ issue.id }}"><i class="high medium material-icons ">label</i></a>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <h3 class="issue-title">
+                            <a href="/issues/{{ issue.id }}" class="high" >#{{issue.id}} {{issue.title}}</a>
+                        </h3>
+                        <p>
+                            Created by brian
+                        </p>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <span>Assinged to</span><br >
+                        <span>{{issue.user}}Brian</span>
+                    </div>
+                </td>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+        </div>
+
 {% endblock %}

@@ -12,7 +12,7 @@ mod_issue_tracker = Blueprint('issues', __name__, url_prefix='/issues')
 
 @mod_issue_tracker.route('/new', methods=['GET', 'POST'])
 @login_required
-def register():
+def add_new_issue():
     form = NewIssueForm(request.form)
     if request.method == 'POST':
         title = form.title.data
@@ -30,10 +30,14 @@ def register():
             status=0
         )
 
-        #db.session.add(issue)
-        #db.session.commit()
+        print description
 
-        return "issue submitted"
+        db.session.add(issue)
+        db.session.commit()
+
+        flash("Issue Submitted Successfully", category='info')
+
+        return redirect("/issues")
 
     return render_template('issues/create_new.html', form=form)
 

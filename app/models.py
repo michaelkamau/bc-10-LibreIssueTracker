@@ -62,7 +62,7 @@ class Issue(db.Model):
     __tablename__ = "issues"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(120))
-    description = db.Column(db.String(120))
+    description = db.Column(db.String(250))
     user = db.Column(db.Integer, db.ForeignKey('users.id'))
     priority = db.Column(db.Integer)
     status = db.Column(db.Integer)
@@ -74,10 +74,9 @@ class Issue(db.Model):
 
 
 class IssueStatus(object):
-    NEW = 0
+    OPEN = 0
     IN_PROGRESS = 1
-    OPEN = 2
-    CLOSED = 3
+    CLOSED = 2
 
     LOW = 0
     MEDIUM = 1
