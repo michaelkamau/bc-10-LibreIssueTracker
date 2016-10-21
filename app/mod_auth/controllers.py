@@ -1,3 +1,5 @@
+from urlparse import urlparse, urljoin
+
 from flask import render_template, request, flash, redirect, url_for, Blueprint
 from flask import session
 from flask_login import login_user, logout_user, LoginManager, current_user
@@ -19,20 +21,29 @@ def register():
     form = RegistrationForm(request.form)
 
     if request.method == 'POST':
-        user = User(
-            username=form.username.data,
-            password=form.password.data,
-            email=form.email.data,
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            department=form.department.data
-        )
-        db.session.add(user)
-        db.session.commit()
+        if form.validate():
+            user = User(
+                username=form.username.data,
+                password=form.password.data,
+                email=form.email.data,
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                department=form.department.data
+            )
 
-        flash('Thanks for registering')
+            try:
+                db.session.add(user)
+                db.session.commit()
 
-        return redirect(url_for('auth.login'))
+                flash('Thanks for registering')
+            except Exception:
+                db.session.rollback()
+
+            return redirect(url_for('auth.login'))
+
+        else:
+            for e in form.errors:
+                flash(e)
 
     return render_template('auth/register.html', form=form)
 
@@ -44,7 +55,7 @@ def logout():
         return redirect(url_for("auth.login"))
     else:
         flash("problem logging out")
-        return "done"
+        return redirect(url_for("index.index"))
 
 
 @mod_auth.route('/login', methods=['GET', 'POST'])
@@ -52,20 +63,23 @@ def login():
     form = LoginForm(request.form)
 
     if request.method == 'POST':
-        username = form.username.data
-        password = form.password.data
+        if form.validate():
+            username = form.username.data
+            password = form.password.data
 
-        user = User.query.filter_by(username=username, password=password).first()
+            user = User.query.filter_by(username=username, password=password).first()
 
-        if user is not None:
-            login_user(user, True)
-            session['user_id'] = user.id
-            session['username'] = user.username
+            if user is not None:
+                login_user(user, True)
+                session['user_id'] = user.id
+                session['username'] = user.username
 
-            flash("Logged in")
+                flash("Logged in")
 
-            return redirect(url_for("index.index"))
-        print request.args.get('next', 19, type=int)
+                return redirect_back('index.index')
+
+            else:
+                flash("Invalid Username/password combination")
 
     return render_template('auth/login.html', form=form)
 
@@ -96,5 +110,27 @@ def requires_roles(*roles):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc
+
+
+def get_redirect_target():
+    for target in request.values.get('next'), request.referrer:
+        if not target:
+            continue
+        if is_safe_url(target):
+            return target
+
+
+def redirect_back(endpoint, **values):
+    target = request.form['next']
+    if not target or not is_safe_url(target):
+        target = url_for(endpoint, **values)
+    return redirect(target)
 
 

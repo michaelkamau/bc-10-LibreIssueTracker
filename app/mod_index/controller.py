@@ -7,4 +7,4 @@ mod_index = Blueprint('index', __name__)
 
 @mod_index.route('/', methods=['GET'])
 def index():
-    return Response(response=render_template('static/base.html'))
+    return Response(response=render_template('index/index.html'))

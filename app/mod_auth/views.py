@@ -16,12 +16,12 @@ class RegistrationForm(Form):
     password = PasswordField(id='password', validators=[DataRequired()])
     first_name = StringField(id='first_name', validators=[DataRequired()])
     last_name = StringField(id='last_name', validators=[DataRequired()])
-    department = SelectField(id='department', validators=[DataRequired()],
+    department = SelectField(id='department',
                              choices=Department().query.with_entities(Department.id, Department.name).all())
 
 
 class LoginForm(Form):
-    username = StringField(id="username")
-    password = StringField(id="password")
+    username = StringField(id="username", validators=[DataRequired()])
+    password = StringField(id="password", validators=[DataRequired()])
     hidden_tag = StringField()
 

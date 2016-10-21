@@ -14,6 +14,10 @@ mod_issue_tracker = Blueprint('issues', __name__, url_prefix='/issues')
 @mod_issue_tracker.route('/new', methods=['GET', 'POST'])
 @login_required
 def add_new_issue():
+    """
+    Creates a new issue from the Form and store it in the database table issues
+    :return:
+    """
     form = NewIssueForm(request.form)
     if request.method == 'POST':
         title = form.title.data
@@ -31,12 +35,16 @@ def add_new_issue():
             status=0
         )
 
-        print description
+        try:
 
-        db.session.add(issue)
-        db.session.commit()
+            db.session.add(issue)
+            db.session.commit()
+            flash("Issue Submitted Successfully", category='info')
+        except Exception:
+            flash("Issues Submission Failed", category='info')
+            db.session.rollback()
 
-        flash("Issue Submitted Successfully", category='info')
+
 
         return redirect("/issues")
 
@@ -50,14 +58,13 @@ def get_issues():
     if current_user.is_admin():
         issues_list = db.session.query(Issue.id, Issue.title, Issue.priority, \
                                        Issue.user, Issue.status, User.fullname) \
-            .outerjoin(User, Issue.user == User.id)
+            .outerjoin(User, Issue.user == User.id).all()
     else:
         user_id = current_user.get_id()
         issues_list = db.session.query(Issue.id, Issue.title, Issue.description, Issue.priority, \
                                        Issue.user, Issue.status, User.fullname, User.id) \
             .outerjoin(User, Issue.user == User.id) \
             .filter(User.id == Issue.user, Issue.user == user_id).all()
-
     return render_template('issues/issues_list.html', issues_list=issues_list)
 
 
@@ -81,18 +88,20 @@ def get_issue_by_id(issue_id):
             db.engine.execute(text("UPDATE Issues SET status = " + str(action_issue) + " WHERE id = " + str(issue_id)))
             flash("Closed Issue #" + str(issue_id))
 
-        print action_issue
+        try:
+            print action_issue
 
-        assign_issue = AssignedIssue(user_id=user_id, issue_id=issue_id)
+            assign_issue = AssignedIssue(user_id=user_id, issue_id=issue_id)
 
-        if admin_comment:
-            comment = Comment(issue_id=issue_id, admin_comment=admin_comment)
-            db.session.add(comment)
-
-        db.session.add(assign_issue)
-        db.session.commit()
-
-        flash("Assigned #" + str(issue_id) + " To " + user_id)
+            if admin_comment:
+                comment = Comment(issue_id=issue_id, admin_comment=admin_comment)
+                db.session.add(comment)
+                db.session.add(assign_issue)
+                db.session.commit()
+                flash("Assigned #" + str(issue_id) + " To " + user_id)
+        except Exception:
+            db.session.rollback()
+            flash("An Error Occurred, Try again")
 
         return redirect(url_for('issues.get_issues'))
 

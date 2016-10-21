@@ -25,10 +25,13 @@ def manage_departments():
 
         department = Department(admin_id=admin_id, name=name)
 
-        db.session.add(department)
-        db.session.commit()
-
-        flash("New Department Created Successfully", category='info')
+        try:
+            db.session.add(department)
+            db.session.commit()
+            flash("New Department Created Successfully", category='info')
+        except Exception:
+            flash("Department Creation failed", category='info')
+            db.session.rollback()
 
     departments = db.session.query(Department.id, Department.name, User.fullname) \
         .outerjoin(User, Department.admin_id == User.id).all()

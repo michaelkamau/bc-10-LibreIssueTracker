@@ -5,17 +5,17 @@
 
 {% block content %}
 
-<div class="container">
+ <div class="col-md-4 col-md-offset-4">
 <form method=post  role="form" action="{{url_for('issues.add_new_issue')}}">
 
     <div class="row">
         <label for="{{form.title.id}}">Subject</label>
-          <input id="{{form.title.id}}" type="text" name={{form.title.id}} class="validate">
+          <input id="{{form.title.id}}" type="text" name={{form.title.id}} class="validate form-control input-sm5">
         </div>
 
     <div class="row">
-        <label for="{{form.department.id}}">To Department</label>
-            <select id="{{form.department.id}}" name="department">
+        <label for="{{form.department.id}}">Department</label>
+            <select id="{{form.department.id}}" name="department" class="validate form-control">
                 {% for department in form.department.choices %}
                     <option value="{{department.id}}">{{department.name}}</option>
                 {% endfor %}
@@ -27,10 +27,10 @@
     <div class="row">
 
         <label for="{{ form.priority.id }}">Priority</label>
-        <div id="{{ form.priority.id }}">
+        <div id="{{ form.priority.id }}" class="validate form-control">
             {% for priority in form.priority.choices %}
             <label for="{{ priority.0 }}">{{ priority.1 }}</label>
-            <input name="{{form.priority.id}}" type="radio" value="{{ priority.0 }}" id="{{ priority.0 }}" />
+            <input name="{{form.priority.id}}" type="radio" class="" value="{{ priority.0 }}" id="{{ priority.0 }}" />
 
              {% endfor %}
         </div>
@@ -39,7 +39,7 @@
 
     <div class="row description_div">
             <label for="{{ form.description.id }}">Description</label>
-            <textarea id="{{ form.description.id }}" name="{{ form.description.id }}" ></textarea>
+            <textarea id="{{ form.description.id }}" name="{{ form.description.id }}" class="validate form-control input-sm"></textarea>
 
         </div>
 

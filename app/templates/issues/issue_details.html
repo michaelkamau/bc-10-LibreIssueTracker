@@ -4,11 +4,25 @@
 {% endblock %}
 
 {% block content %}
+<style>
+high{
+        color :#e53935 ;
+    }
 
-<div class="container">
+    .med {
+        color: #ffa000;
+    }
+
+    .low{
+        color : #0277bd;
+    }
+</style>
+
+<div class="col-md-4 col-md-offset-4">
+     <form method=post action="/issues/{{ issue.0.0.id}}">
 
     <div class="row">
-            <span class="{{ issue.0.0.priority}} issue-title">#
+            <span class="{{ issue.0.0.priority}} issue-title  ">#
                 {{ issue.0.0.id}}
                 &bull;
                 {{issue.0.0.title}}
@@ -24,24 +38,23 @@
                 IN PROGRESS
             </span>
         <hr>
-        <label>Created By: </label><span class="">{{issue.0.1.fullname}} </span> <br/>
+        <label>Created By: </label><span class="form-control">{{issue.0.1.fullname}} </span> <br/>
 
         {% if not current_user.is_admin() %}
-        <label>Assigned To: </label><span class="">{{issue.0.1.fullname}} </span> <br/>
+        <label>Assigned To: </label><span class="form-control">{{issue.0.1.fullname}} </span> <br/>
         {% endif %}
 
         <label for="description">Description </label><br>
-        <textarea style="overflow-y: scroll;   width: 80%;" id="description"
+        <textarea style="overflow-y: scroll;" id="description" class="form-control"
                   readonly>{{issue.0.0.description}}</textarea>
-    </div>
 
     {% if current_user.is_admin() %}
     <div class="row">
-        <form method=post action="/issues/{{ issue.0.0.id}}">
 
-            <div class="row">
+
+            <div class="row" class="form-control">
                 <label for="{{form.action_issue.id}}">Change Issue Status</label>
-                <select id="{{form.action_issue.id}}" name="action_issue">
+                <select id="{{form.action_issue.id}}" name="action_issue" class="form-control">
                     <option value="-">----</option>
                     {% for action in form.action_issue.choices %}
                     <option value="{{action.0}}">{{ action.1 }}</option>
@@ -54,7 +67,7 @@
 
             <div class="row">
                 <label for="{{form.users.id}}">Assign To</label>
-                <select id="{{form.users.id}}" name="{{form.users.id}}">
+                <select id="{{form.users.id}}" name="{{form.users.id}}" class="form-control">
                     <option value="-">----</option>
                     {% for user in form.users.choices %}
                     <option value="{{user.id}}">{{user.fullname}}</option>
@@ -64,22 +77,22 @@
 
             </div>
 
-            <div class="row">
-                <div class="row description_div">
+            <div class="row" class="col-md-5 col-md-offset-5">
+                <div class=>
                     <label for="{{ form.admin_comment.id }}">Comment</label>
                     <textarea id="{{ form.admin_comment.id }}" name="{{ form.admin_comment.id }}"
-                              class="materialize-textarea"></textarea>
+                              class="form-control"></textarea>
 
                 </div>
             </div>
 
             <div class="row">
-                <div class="input-field col s12">
-                    <button class="btn waves-effect waves-light margin" type="submit" value="save" name="save">
+
+                    <button class="form-control" type="submit" value="save" name="save">
                         Save
                     </button>
 
-                </div>
+
                 </div>
 
         </form>
@@ -89,6 +102,7 @@
         {% endif %}
 
     </div>
+</div>
     {% endblock %}
 
     {% block scripts %}
