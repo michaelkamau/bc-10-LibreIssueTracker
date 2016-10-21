@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(120))
     last_name = db.Column(db.String(120))
     fullname = db.column_property(last_name + ", " + first_name)
-    role = db.Column(db.Integer)
+    role = db.Column(db.Integer, default=0)
     verified = db.Column(db.Integer)
     department = db.Column(db.Integer, db.ForeignKey(Department.id))
 
@@ -52,8 +52,8 @@ class Issue(db.Model):
     title = db.Column(db.String(120))
     description = db.Column(db.String(250))
     user = db.Column(db.Integer, db.ForeignKey(User.id))
-    priority = db.Column(db.Integer)
-    status = db.Column(db.Integer)
+    priority = db.Column(db.Integer, default="low")
+    status = db.Column(db.Integer, default="0")
     department = db.Column(db.Integer)
     created_at = db.Column(db.Integer)
 
