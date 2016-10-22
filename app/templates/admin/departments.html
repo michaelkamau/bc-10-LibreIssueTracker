@@ -1,0 +1,92 @@
+{% extends "static/base.html" %}
+{% block title %}
+Departments
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+
+
+    <div>
+    <table width="50%">
+        <thead>
+        <tr>
+            <th >
+            <span>Current Departments</span>
+                 <hr />
+            </th>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+
+            <th>Name</th>
+            <th>Head Of Department</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for department in departments %}
+        <tr>
+            <td>
+                <a href="{{url_for('admin.manage_departments')}}/{{ department.0 }}">{{department.1}}</a>
+            </td>
+            <td>
+                <span>{{department.2}}</span>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        </div>
+
+</div>
+
+<br >
+
+<div class="container">
+    <div>
+        <span>Create New Department</span>
+        <hr/>
+        <form method="post" action="{{ url_for('admin.manage_departments') }}">
+            <div class="row">
+
+                <label for="{{form.department_name.id}}">Name</label>
+                <input id="{{form.department_name.id}}" type="text" name="{{form.department_name.id}}"
+                       class="validate form-control">
+
+
+            </div>
+
+            <div class="row">
+                <label for="{{form.users.id}}">Name Of Admin</label>
+                <select id="{{form.users.id}}" name="{{form.users.id}}" class="validate form-control">
+                    <option value="-">----</option>
+                    {% for user in form.users.choices %}
+                    <option value="{{user.id}}">{{user.fullname}}</option>
+                    {% endfor %}
+                </select>
+
+
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <button class="btn waves-effect waves-light margin right" type="submit">Create Department
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+
+     <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>{% endblock %}
+</head>
+<body>
+
+    {% block nav %}
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        
+   
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Issues<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+              {% if current_user.is_authenticated %}
+                {% if current_user.is_admin() %}
+                <li><a href="{{url_for('issues.get_issues')}}">All Issues</a></li>
+              {% endif %}
+              {% endif %}
+            <li><a href="{{ url_for('issues.add_new_issue') }}">Post New Issue</a></li>
+            <li><a href="{{url_for('issues.get_issues')}}">My Issues</a></li>
+          </ul>
+        </li>
+      </ul>
+      </ul>
+    <ul class="nav navbar-nav navbar-right">
+        {% if current_user.is_authenticated %}
+        {% if current_user.is_admin() %}
+        <li>
+            <a href="{{ url_for('admin.manage_departments') }}"><i class="fa fa-sign-out"></i>Manage Departments</a>
+        </li>
+        {% endif %}
+        <li>
+        <a href="{{ url_for('auth.logout') }}"><i class="fa fa-sign-out"></i>Sign Out</a>
+        </li>
+        {% else %}
+        <a href="{{ url_for('auth.login') }}"><i class="fa fa-sign-in"></i>Sign In</a>
+        {% endif %}
+
+
+    </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+    {% endblock %}
+
+    <div class="col-md-4 col-md-offset-4">
+    {% for message in get_flashed_messages() %}
+
+        <div class="alert alert-warning text-center">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{message}}
+        </div>
+        {% endfor %}
+    </div>
+
+
+    {% block content %}
+
+    {% endblock %}
+  {% block scripts %}
+
+    {% endblock %}
+</body>
+</html>

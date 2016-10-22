@@ -1,0 +1,68 @@
+{% extends "static/base.html" %}
+{% block title %}
+Issue List
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .high{
+        color :#e53935 ;
+    }
+
+    .med {
+        color: #ffa000;
+    }
+
+    .low{
+        color : #0277bd;
+    }
+
+    .issue-title {
+        font-size : 16px;
+    }
+
+    .fa{
+            font-size: 38px;
+            vertical-align: middle;
+    }
+</style>
+
+<div class="col-md-7 col-md-offset-2">
+    <table id="user_list" class="table table-hover">
+    <tbody class="list">
+    {% for issue in issues_list %}
+      <tr>
+          <td>
+             <a href="{{url_for('issues.get_issue_by_id', issue_id=issue.id)}}"><i class="fa fa-bookmark fa-2 {{issue.priority}} " aria-hidden="true"></i></a>
+          </td>
+
+          <td class="state"><a href="{{url_for('issues.get_issue_by_id', issue_id=issue.id)}}"><p class="issue-title {{issue.priority}} ">
+              #{{issue.id}}	&#8226; {{issue.title}}
+               </p>
+              </a>
+              <span>created by: {{issue.fullname}}</span>
+
+          </td>
+
+          <td>
+              <span class="state {{issue.priority}} ">
+                 {% if issue.status ==  0 %}
+              OPEN
+                                                              {% elif issue.status ==  1 %}
+                                                                IN PROGRESS
+                                                              {% elif issue.status ==  2 %}
+                                                                CLOSED
+                                                              {% endif %}
+                  </span>
+
+          </td>
+
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}
